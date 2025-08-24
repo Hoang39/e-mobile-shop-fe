@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "capstoneproject-ff3m.onrender.com";
+const host = "https://capstoneproject-ff3m.onrender.com";
 
 export const getCart = async (token) => {
   try {

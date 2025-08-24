@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://localhost:8000";
+const host = "capstoneproject-ff3m.onrender.com";
 
 export const signIn = async (formValue) => {
   try {
@@ -60,7 +60,6 @@ export const updateProfile = async (token, formValue) => {
   }
 };
 
-
 export const getAllProfile = async (token) => {
   try {
     const res = await axios({
@@ -80,7 +79,7 @@ export const updateRole = async (token, status, userId) => {
       method: "patch",
       url: `${host}/api/user/role/${userId}`,
       data: {
-        status: status
+        status: status,
       },
       headers: {
         Authorization: `Bearer ${token}`,

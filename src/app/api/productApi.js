@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://localhost:8000";
+const host = "capstoneproject-ff3m.onrender.com";
 
 export const getAllProducts = async () => {
   try {
@@ -80,7 +80,7 @@ export const updateProduct = async (id, token, formValue) => {
       method: "patch",
       url: `${host}/api/product/${id}`,
       data: {
-        data: JSON.stringify(formValue)
+        data: JSON.stringify(formValue),
       },
       headers: {
         Authorization: `Bearer ${token}`,

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://localhost:8000";
+const host = "capstoneproject-ff3m.onrender.com";
 
 export const getOrder = async (token) => {
   try {
@@ -57,7 +57,7 @@ export const updateStatus = async (token, status, orderId) => {
       method: "patch",
       url: `${host}/api/order/${orderId}`,
       data: {
-        status: status
+        status: status,
       },
       headers: {
         Authorization: `Bearer ${token}`,

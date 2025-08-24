@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "http://localhost:8000";
+const host = "capstoneproject-ff3m.onrender.com";
 
 export const sendMessage = async (token, prompt) => {
   try {

@@ -9,6 +9,15 @@ const nextConfig = {
       "avatars.githubusercontent.com",
     ],
   },
+
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "main--emobileshop.netlify.app",
+        "emobileshop.netlify.app",
+      ],
+    },
+  },
 };
 
 module.exports = nextConfig;

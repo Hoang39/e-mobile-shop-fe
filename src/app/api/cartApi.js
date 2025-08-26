@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const host = "https://capstoneproject-ff3m.onrender.com";
+const host = process.env.API_URL || "http://localhost:8000";
 
 export const getCart = async (token) => {
   try {

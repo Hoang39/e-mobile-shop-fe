@@ -8,6 +8,8 @@ import { ReactNotifications, Store } from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { AiOutlineGithub } from "react-icons/ai";
+import { login } from "@/lib/actions/auth";
 import { signUp } from "../api/userApi";
 
 export default function SignUp() {
@@ -19,7 +21,7 @@ export default function SignUp() {
     name: "",
     phoneNumber: "",
     gender: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (event) => {
@@ -75,7 +77,7 @@ export default function SignUp() {
     <>
       <ReactNotifications />
       <div className="flex max-[600px]:flex-col">
-      <div className="relative max-[600px]:h-[200px] h-screen min-w-[60%] bg-gradient-to-b from-[#FFEACB]/80 to-[#FED085]/80">
+        <div className="relative max-[600px]:h-[200px] h-screen min-w-[60%] bg-gradient-to-b from-[#FFEACB]/80 to-[#FED085]/80">
           <Image
             src={loginObj}
             alt=""
@@ -190,12 +192,23 @@ export default function SignUp() {
               >
                 ĐĂNG KÝ
               </div>
+
+              <div
+                className="cursor-pointer border mt-4 border-black text-black hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-xl text-sm w-full px-5 py-2 text-center dark:border-gray-600 dark:text-gray-600 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800 flex items-center justify-center gap-x-2"
+                onClick={() => login()}
+              >
+                <AiOutlineGithub size={16} />
+                GITHUB
+              </div>
             </form>
           </div>
           <div className="flex justify-between text-xs text-black py-3">
             <p>
               Đã có tài khoản?{" "}
-              <span onClick={() => router.push("/login")} className="cursor-pointer font-medium text-blue-500">
+              <span
+                onClick={() => router.push("/login")}
+                className="cursor-pointer font-medium text-blue-500"
+              >
                 Đăng nhập
               </span>
             </p>

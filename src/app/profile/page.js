@@ -14,6 +14,8 @@ import { getOrder } from "../api/orderApi";
 import wishlist from "../../image/cart/wishlist.png";
 import Error from "@/components/error/error";
 import Footer from "@/components/footer/footer";
+import { logout } from "@/lib/actions/auth";
+import { useSession } from "next-auth/react";
 
 const description = {
   fullname_des:
@@ -24,6 +26,7 @@ const description = {
 
 export default function Profile() {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const [activeTab, setActiveTab] = useState("profile");
 
@@ -52,44 +55,49 @@ export default function Profile() {
 
       <div className="max-[600px]:mx-6 max-[600px]:flex-col flex mx-24 my-8">
         <div className="max-[600px]:w-full w-[25%] px-4 flex flex-col gap-y-2 border-r-2 border-gray-50">
-          <Image src={avadefault} className="max-[600px]:hidden rounded-full mx-auto" />
+          <Image
+            src={avadefault}
+            className="max-[600px]:hidden rounded-full mx-auto"
+          />
           <p className="text-xl font-medium text-primary_color text-center pt-2">
             {userInfo?.name}
           </p>
           <div className="flex max-[600px]:flex-row max-[600px]:items-center max-[600px]:justify-between flex-col gap-y-2">
-          <p
-            className={`${
-              activeTab === "profile"
-                ? "text-primary_color bg-gray-50 rounded-lg"
-                : "text-sub_primary_color"
-            } cursor-pointer text-sm font-medium py-2 px-2`}
-            onClick={() => setActiveTab("profile")}
-          >
-            Trang cá nhân
-          </p>
-          <p
-            className={`${
-              activeTab === "order"
-                ? "text-primary_color bg-gray-50 rounded-lg"
-                : "text-sub_primary_color"
-            } cursor-pointer text-sm font-medium py-2 px-2`}
-            onClick={() => setActiveTab("order")}
-          >
-            Thông tin đơn hàng
-          </p>
-          <p
-            className={`${
-              activeTab === "order" && activeTab === "profile"
-                ? "text-primary_color bg-gray-50 rounded-lg"
-                : "text-sub_primary_color"
-            } cursor-pointer text-sm font-medium py-2 px-2`}
-            onClick={() => {
-              localStorage.removeItem("user-token");
-              router.push("/");
-            }}
-          >
-            Đăng xuất
-          </p>
+            <p
+              className={`${
+                activeTab === "profile"
+                  ? "text-primary_color bg-gray-50 rounded-lg"
+                  : "text-sub_primary_color"
+              } cursor-pointer text-sm font-medium py-2 px-2`}
+              onClick={() => setActiveTab("profile")}
+            >
+              Trang cá nhân
+            </p>
+            <p
+              className={`${
+                activeTab === "order"
+                  ? "text-primary_color bg-gray-50 rounded-lg"
+                  : "text-sub_primary_color"
+              } cursor-pointer text-sm font-medium py-2 px-2`}
+              onClick={() => setActiveTab("order")}
+            >
+              Thông tin đơn hàng
+            </p>
+            <p
+              className={`${
+                activeTab === "order" && activeTab === "profile"
+                  ? "text-primary_color bg-gray-50 rounded-lg"
+                  : "text-sub_primary_color"
+              } cursor-pointer text-sm font-medium py-2 px-2`}
+              onClick={() => {
+                localStorage.removeItem("user-token");
+                if (session?.user) {
+                  logout();
+                } else router.push("/");
+              }}
+            >
+              Đăng xuất
+            </p>
           </div>
         </div>
 
@@ -149,7 +157,10 @@ export default function Profile() {
                             <b>Mã đơn hàng:</b> {item._id}
                           </p>
                           <p>
-                            <b>Phương thức thanh toán:</b> {item.paymentMethod === "Momo" ? item.paymentMethod : "Trực tiếp"}
+                            <b>Phương thức thanh toán:</b>{" "}
+                            {item.paymentMethod === "Momo"
+                              ? item.paymentMethod
+                              : "Trực tiếp"}
                           </p>
                         </div>
 
@@ -163,7 +174,12 @@ export default function Profile() {
                             VND
                           </p>
                           <p>
-                            <b>Tình trạng:</b> {item.paymentStatus === "pending" ? "Đang xử lý" : item.paymentStatus === "paid" ? "Đã xử lý" : "Hủy đơn hàng"}
+                            <b>Tình trạng:</b>{" "}
+                            {item.paymentStatus === "pending"
+                              ? "Đang xử lý"
+                              : item.paymentStatus === "paid"
+                              ? "Đã xử lý"
+                              : "Hủy đơn hàng"}
                           </p>
                         </div>
                       </div>
@@ -199,5 +215,7 @@ export default function Profile() {
 
       <Footer />
     </>
-  ) : <Error />;
+  ) : (
+    <Error />
+  );
 }

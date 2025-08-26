@@ -6,6 +6,7 @@ const nextConfig = {
       "cdn1.hoanghamobile.com",
       "hoanghamobile.com",
       "admin.hoanghamobile.com",
+      "avatars.githubusercontent.com",
     ],
   },
 };

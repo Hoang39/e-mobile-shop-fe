@@ -9,9 +9,20 @@ import "react-notifications-component/dist/theme.css";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "../api/userApi";
+import { AiOutlineGithub } from "react-icons/ai";
+import { login } from "@/lib/actions/auth";
+import { useSession } from "next-auth/react";
 
 export default function Login() {
   const router = useRouter();
+
+  const { data: session, status } = useSession();
+
+  if (status == "authenticated" && session?.user) {
+    // localStorage.setItem("user-token", res.token);
+
+    router.push("/");
+  }
 
   const [formValue, setformValue] = useState({
     email: "",
@@ -134,12 +145,23 @@ export default function Login() {
               >
                 ĐĂNG NHẬP
               </div>
+
+              <div
+                className="cursor-pointer border mt-4 border-black text-black hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-xl text-sm w-full px-5 py-2 text-center dark:border-gray-600 dark:text-gray-600 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800 flex items-center justify-center gap-x-2"
+                onClick={() => login()}
+              >
+                <AiOutlineGithub size={16} />
+                GITHUB
+              </div>
             </form>
           </div>
           <div className="flex justify-between text-xs text-black py-3">
             <p>
               Chưa có tài khoản?{" "}
-              <span onClick={() => router.push("/signup")} className="cursor-pointer font-medium text-blue-500">
+              <span
+                onClick={() => router.push("/signup")}
+                className="cursor-pointer font-medium text-blue-500"
+              >
                 Đăng ký
               </span>
             </p>

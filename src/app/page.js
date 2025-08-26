@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 import ChatBotButton from "@/components/button/chatBotBtn";
 import ScrollButton from "@/components/button/scrollBtn";
@@ -109,9 +110,19 @@ export default function Home() {
 
   const [userInfo, setUserInfo] = useState(null);
 
+  const { data: session } = useSession();
+
   useEffect(() => {
     (async () => {
-      const token = localStorage.getItem("user-token");
+      let token = null;
+
+      if (session?.token) {
+        localStorage.setItem("user-token", session.token);
+        token = session.token;
+      } else {
+        token = localStorage.getItem("user-token");
+      }
+
       if (token) {
         const getUserInfo = await getProfile(token);
         setUserInfo(getUserInfo);
@@ -135,7 +146,7 @@ export default function Home() {
       setTablet(tablets.slice(0, 10));
       setSpeakerHead(speakerHeads.slice(80, 120));
     })();
-  }, []);
+  }, [session]);
 
   return (
     <>
